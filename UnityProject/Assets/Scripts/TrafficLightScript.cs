@@ -16,9 +16,9 @@ public class TrafficLightScript : MonoBehaviour
     public Color LightYellow;
     public Color LightGreen;
 
-    private Color oldRed;
-    private Color oldYellow;
-    private Color oldGreen;
+    public Color offRed;
+    public Color offYellow;
+    public Color offGreen;
     
     private float timer = 5.0f;
     private bool changeLight = false;
@@ -37,10 +37,10 @@ public class TrafficLightScript : MonoBehaviour
         Yellow = this.gameObject.transform.GetChild(2).gameObject;
         Green = this.gameObject.transform.GetChild(3).gameObject;
 
-        oldRed = Red.GetComponent<Renderer>().material.color;
-        oldYellow = Yellow.GetComponent<Renderer>().material.color;
-        oldGreen = Green.GetComponent<Renderer>().material.color;
-
+        /* offRed = Red.GetComponent<Renderer>();
+        offYellow = Yellow.GetComponent<Renderer>();
+        offGreen = Green.GetComponent<Renderer>();
+         */
         Red.GetComponent<Renderer>().material.color = LightRed;
     }
 
@@ -56,7 +56,15 @@ public class TrafficLightScript : MonoBehaviour
 
         }
 
-        if (timer >= 1 && changeLight)
+        if (Input.GetButtonDown("Fire2"))
+        {
+            
+            Debug.Log("Fire2 Pressed");
+            
+
+        }
+
+        if (timer >= 1.5 && changeLight)
         {
             if (yellowActive == true)
             {
@@ -64,7 +72,7 @@ public class TrafficLightScript : MonoBehaviour
                 
                 if (changeDown == true)
                 {
-                    Yellow.GetComponent<Renderer>().material.color = oldYellow;
+                    Yellow.GetComponent<Renderer>().material.color = offYellow;
                     Green.GetComponent<Renderer>().material.color = LightGreen;
                     logTracking.classID = 1;
                     frameCount = 0;
@@ -74,9 +82,9 @@ public class TrafficLightScript : MonoBehaviour
                     
                 }
 
-                if (changeDown == false)
+                else if (changeDown == false)
                 {
-                    Yellow.GetComponent<Renderer>().material.color = oldYellow;
+                    Yellow.GetComponent<Renderer>().material.color = offYellow;
                     Red.GetComponent<Renderer>().material.color = LightRed;
                     logTracking.classID = 3;
                     frameCount = 0;
@@ -86,13 +94,14 @@ public class TrafficLightScript : MonoBehaviour
                 }
             }
             
-            if (yellowActive == false)
+            else if (yellowActive == false)
             {
                 timer = 0;
                 Yellow.GetComponent<Renderer>().material.color = LightYellow;
                 yellowActive = true;
-                Red.GetComponent<Renderer>().material.color = oldRed;
-                Green.GetComponent<Renderer>().material.color = oldGreen;
+                frameCount = 0;
+                Red.GetComponent<Renderer>().material.color = offRed;
+                Green.GetComponent<Renderer>().material.color = offGreen;
             }
         }
 
@@ -102,13 +111,15 @@ public class TrafficLightScript : MonoBehaviour
             if (logTracking.classID == 1)
             {
                 logTracking.classID = 2;
-                Debug.Log(logTracking.classID);
+                Debug.Log("New ID: " + logTracking.classID);
             }
             if (logTracking.classID == 3)
             {
                 logTracking.classID = 0;
-                Debug.Log(logTracking.classID);
+                Debug.Log("New ID: " + logTracking.classID);
             }
         }
     }
+
+
 }

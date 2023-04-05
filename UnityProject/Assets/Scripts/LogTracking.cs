@@ -8,6 +8,7 @@ public class LogTracking : MonoBehaviour
     private LoggingManager loggingManager;
     private OculusDataLoader oculusDataLoader;
     private string CsvFileName = "Dataset";
+    private TrafficLightScript trafficLight;
  
     public int classID = 0;
 
@@ -60,12 +61,15 @@ public class LogTracking : MonoBehaviour
             loggingManager.Log(CsvFileName, "$Coord " + i.ToString(), coords[i]);
         }
         
-        if (Input.GetKey("space"))
+
+        if (Input.GetButtonDown("Fire2"))
         {
             loggingManager.SaveLog(CsvFileName);
             loggingManager.ClearLog(CsvFileName);
             loggingManager.NewFilestamp();
             print("CSV was saved");
         }
+
+        coords.Clear();
     }
 }

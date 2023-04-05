@@ -2530,6 +2530,9 @@ MonoBehaviour:
   LightRed: {r: 1, g: 0.504717, b: 0.504717, a: 0}
   LightYellow: {r: 0.9528302, g: 0.83796334, b: 0.4719206, a: 0}
   LightGreen: {r: 0.57187665, g: 0.9622642, b: 0.49474904, a: 0}
+  offRed: {r: 0.45882356, g: 0.227451, b: 0.23529413, a: 0}
+  offYellow: {r: 0.49803925, g: 0.4666667, b: 0.22352943, a: 0}
+  offGreen: {r: 0.2784314, g: 0.6627451, b: 0.34901962, a: 0}
   logTracking: {fileID: 1830803712}
 --- !u!4 &1141645202
 Transform:
@@ -3536,7 +3539,7 @@ MonoBehaviour:
   enableMySQLSave: 1
   email: anonymous
   enableCSVSave: 1
-  savePath: 
+  savePath: C:\Users\sebbe\Desktop\MED-LocalFast\SUI\SUI-Mini-project\Data
   filePrefix: log
   fileExtension: .csv
 --- !u!114 &1830803710
