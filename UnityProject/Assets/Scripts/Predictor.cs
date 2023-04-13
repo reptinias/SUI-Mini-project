@@ -11,10 +11,11 @@ public class Predictor : MonoBehaviour
         private Model _runTimeModel;
         private IWorker _engine;
         public Prediction prediction;
-        public string[] predString = new string[2];
+        public string predString;
         public float predThreshold;
         
         private List<float> coords = new List<float>(new float[143]);
+        private List<float> tempCoords = new List<float>(new float[130]);
         private Vector3 headPos;
         private Quaternion headRot;
         private Vector3 handRPos;
@@ -53,7 +54,7 @@ public class Predictor : MonoBehaviour
                 return predictionString;
             }
             
-            public string SetPrediction(Tensor tensor, int handIndex, float predThreshold)
+            public string SetPrediction(Tensor tensor, float predThreshold)
             {
                 predicted = tensor.AsFloats();
                 this.predThreshold = predThreshold;
@@ -72,9 +73,7 @@ public class Predictor : MonoBehaviour
         // Start is called before the first frame update
         void Start()
         {
-            procesGesture = new bool[] { false, false };
-            InputDevices = GameObject.Find("ReadInputs").GetComponent<NewReadInputs>();
-            m_hands = InputDevices.m_hands;
+            
             _runTimeModel = ModelLoader.Load(nnmodel);
             _engine = WorkerFactory.CreateWorker(_runTimeModel, WorkerFactory.Device.GPU);
             prediction = new Prediction();  
@@ -85,8 +84,9 @@ public class Predictor : MonoBehaviour
         // Update is called once per frame
         void Update()
         {
-            coords = coords.GetRange(13, 142);
-
+            //tempCoords = coords.GetRange(13, 142);
+            coords = new List<float>(coords.GetRange(13, 130));
+            
             headPos = oculusDataLoader.getHeadPos();
             headRot = oculusDataLoader.getHeadRot();
             handRPos = oculusDataLoader.getHandR();
@@ -113,11 +113,14 @@ public class Predictor : MonoBehaviour
             }
 
             //Debug.Log($"hand {handIndex}. coordinates max: {normCoordinates.Max()}. coordinates min: {normCoordinates.Min()}");
-            var input = new Tensor(1, 72, coords.ToArray());
+            var input = new Tensor(1, 143, coords.ToArray());
             Tensor output = _engine.Execute(input).PeekOutput();
             input.Dispose();
-            predString[handIndex] = prediction.SetPrediction(output, handIndex, predThreshold);
-            handIndex += 1;
+            predString = prediction.SetPrediction(output, predThreshold);
+
+            //coords = tempCoords;
+            
+            
         }
         private void OnDestroy()
         {
