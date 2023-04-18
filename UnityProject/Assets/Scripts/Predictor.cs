@@ -42,12 +42,15 @@ public class Predictor : MonoBehaviour
                         break;
                     case 1:
                         predictionString = "Starting";
+                        Debug.Log(predictionString);
                         break;
                     case 2:
                         predictionString = "Walking";
+                        Debug.Log(predictionString);
                         break;
                     case 3:
                         predictionString = "Stopping";
+                        Debug.Log(predictionString);
                         break;
                 }
     
@@ -79,6 +82,7 @@ public class Predictor : MonoBehaviour
             prediction = new Prediction();  
             
             oculusDataLoader = GameObject.Find("GameManager").GetComponent<OculusDataLoader>();
+            
         }
     
         // Update is called once per frame

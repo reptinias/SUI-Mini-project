@@ -52,6 +52,7 @@ public class TrafficLightScript : MonoBehaviour
         {
             timer = 0;
             Debug.Log("Pressed");
+            Debug.Log("TUrning");
             changeLight = true;
 
         }
